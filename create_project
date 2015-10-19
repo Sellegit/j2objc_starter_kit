@@ -1,0 +1,104 @@
+#!/bin/bash
+
+show_help() {
+    echo "usage:     create_project domain app_name"
+    echo "example:   create_project io.avantx peach"
+}
+
+if [ -z $1 ]; then
+    show_help
+    exit 1
+fi
+
+if [ -z $2 ]; then
+    show_help
+    exit 1
+fi
+
+DOMAIN=$1
+APP_NAME=$2
+
+cd $(dirname ${BASH_SOURCE})
+TEMPLATE_PATH=`pwd`
+PARENT_PATH=`dirname ${TEMPLATE_PATH}`
+PROJECT_PATH=${PARENT_PATH}/${APP_NAME}
+
+if [ -d ${PROJECT_PATH} ]; then
+    echo "${PROJECT_PATH} already exsit!"
+    exit 1
+fi
+
+TEMPLATE_APP_NAME="appname"
+TEMPLATE_DOMAIN="com.domain"
+TEMPLATE_PACKAGE_NAME=${TEMPLATE_DOMAIN}.${TEMPLATE_APP_NAME}
+TEMPLATE_PACKAGE_PATH=${TEMPLATE_PACKAGE_NAME//./\/}
+TEMPLATE_DROID=${TEMPLATE_APP_NAME}.droid
+TEMPLATE_IOS=${TEMPLATE_APP_NAME}.ios
+TEMPLATE_SHARED=${TEMPLATE_APP_NAME}.shared
+TEMPLATE_XCODE=${TEMPLATE_APP_NAME}.xcode
+
+PACKAGE_NAME=${DOMAIN}.${APP_NAME}
+PACKAGE_PATH=${PACKAGE_NAME//./\/}
+IOS=${APP_NAME}.ios
+# must be same as app_name
+XCODE=${APP_NAME}
+
+print_env() {
+    echo ""
+    echo "---- PRINT ENV ----"
+    echo "TEMPLATE_PATH: "${TEMPLATE_PATH}
+    echo "PARENT_PATH: "${PARENT_PATH}
+    echo "PROJECT_PATH: "${PROJECT_PATH}
+    echo "DOMAIN: "${DOMAIN}
+    echo "APP_NAME: "${APP_NAME}
+    echo "PACKAGE_NAME: "${PACKAGE_NAME}
+    echo "PACKAGE_PATH: "${PACKAGE_PATH}
+    echo "IOS: "${IOS}
+    echo "XCODE: "${XCODE}
+    echo "---- PRINT ENV ----"
+    echo ""
+}
+
+sed_diamon_app_name() {
+    grep -rl ${TEMPLATE_DOMAIN} $1 | LANG=C xargs sed -i.bak.domain "s/${TEMPLATE_DOMAIN}/${DOMAIN}/g"
+    find $1 -name "*.bak.domain" | xargs rm -rf
+    grep -rl ${TEMPLATE_APP_NAME} $1 | LANG=C xargs sed -i.bak.appname "s/${TEMPLATE_APP_NAME}/${APP_NAME}/g"
+    find $1 -name "*.bak.appname" | xargs rm -rf
+}
+
+create_project() {
+    echo "creating project ..."
+    \cp -aR ${TEMPLATE_PATH} ${PROJECT_PATH}
+    rm -rf ${PROJECT_PATH}/.git
+    sed_diamon_app_name ${PROJECT_PATH}
+}
+
+create_ios() {
+    echo "Creating ios ..."
+    mv ${PROJECT_PATH}/${TEMPLATE_IOS} ${PROJECT_PATH}/${IOS}
+    mv ${PROJECT_PATH}/${IOS}/${TEMPLATE_APP_NAME}.ios.iml ${PROJECT_PATH}/${IOS}/${APP_NAME}.iml
+
+    mkdir -p ${PROJECT_PATH}/${IOS}/src/main/java_temp/${PACKAGE_PATH}/ios
+    #mv ${PROJECT_PATH}/${IOS}/src/main/java/${TEMPLATE_PACKAGE_PATH}/ios/* \
+       #${PROJECT_PATH}/${IOS}/src/main/java_temp/${PACKAGE_PATH}/ios
+    mv ${PROJECT_PATH}/${IOS}/src/main/java/AppDelegate.java ${PROJECT_PATH}/${IOS}/src/main/java_temp
+    rm -rf ${PROJECT_PATH}/${IOS}/src/main/java
+    mv ${PROJECT_PATH}/${IOS}/src/main/java_temp ${PROJECT_PATH}/${IOS}/src/main/java
+}
+
+create_xcode() {
+    echo "Creating xcode ..."
+    mv ${PROJECT_PATH}/${TEMPLATE_XCODE} ${PROJECT_PATH}/${XCODE}
+    mv ${PROJECT_PATH}/${XCODE}/${TEMPLATE_APP_NAME}.xcodeproj ${PROJECT_PATH}/${XCODE}/${APP_NAME}.xcodeproj
+    mv ${PROJECT_PATH}/${XCODE}/${TEMPLATE_APP_NAME} ${PROJECT_PATH}/${XCODE}/${APP_NAME}
+}
+
+print_env
+create_project
+create_ios
+create_xcode
+
+echo ""
+echo "Project Path: ${PROJECT_PATH}"
+echo "DONE!"
+echo ""

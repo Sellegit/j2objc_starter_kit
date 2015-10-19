@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="LOCAL" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.4" />
+        <option name="gradleJvm" value="1.7" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/appname.droid" />
+            <option value="$PROJECT_DIR$/appname.ios" />
+            <option value="$PROJECT_DIR$/appname.shared" />
+            <option value="$PROJECT_DIR$/lib/AvantX/avantx.droid" />
+            <option value="$PROJECT_DIR$/lib/AvantX/avantx.ios" />
+            <option value="$PROJECT_DIR$/lib/AvantX/avantx.shared" />
+            <option value="$PROJECT_DIR$/lib/AvantX/lib/exp4j" />
+            <option value="$PROJECT_DIR$/lib/AvantX/lib/iosbinding" />
+            <option value="$PROJECT_DIR$/lib/AvantX/lib/retrofit/retrofit" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

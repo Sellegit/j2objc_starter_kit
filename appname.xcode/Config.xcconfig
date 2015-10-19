@@ -1,0 +1,7 @@
+// Define J2OBJC_HOME in Env.xcconfig
+#include "Env.xcconfig"
+#include "Pods/Target Support Files/Pods-appname/Pods-appname.debug.xcconfig"
+
+HEADER_SEARCH_PATHS = $(inherited) "${J2OBJC_HOME}/include" "${DERIVED_FILES_DIR}"  "${SRCROOT}/appname/generated";
+LIBRARY_SEARCH_PATHS = $(inherited) "${J2OBJC_HOME}/lib";
+OTHER_LDFLAGS = $(inherited) -l"z" -l"jre_emul" -l"icucore" -l"runtime" -ObjC;

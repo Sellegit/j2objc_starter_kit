@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/appname.droid/appname.droid.iml" filepath="$PROJECT_DIR$/appname.droid/appname.droid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appname.ios/appname.ios.iml" filepath="$PROJECT_DIR$/appname.ios/appname.ios.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appname.shared/appname.shared.iml" filepath="$PROJECT_DIR$/appname.shared/appname.shared.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/AvantX/avantx.droid/avantx.droid.iml" filepath="$PROJECT_DIR$/lib/AvantX/avantx.droid/avantx.droid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/AvantX/avantx.ios/avantx.ios.iml" filepath="$PROJECT_DIR$/lib/AvantX/avantx.ios/avantx.ios.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/AvantX/avantx.shared/avantx.shared.iml" filepath="$PROJECT_DIR$/lib/AvantX/avantx.shared/avantx.shared.iml" />
+      <module fileurl="file://$PROJECT_DIR$/avantx_project.iml" filepath="$PROJECT_DIR$/avantx_project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/AvantX/lib/exp4j/exp4j.iml" filepath="$PROJECT_DIR$/lib/AvantX/lib/exp4j/exp4j.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/AvantX/lib/iosbinding/iosbinding.iml" filepath="$PROJECT_DIR$/lib/AvantX/lib/iosbinding/iosbinding.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/AvantX/lib/retrofit/retrofit/retrofit.iml" filepath="$PROJECT_DIR$/lib/AvantX/lib/retrofit/retrofit/retrofit.iml" />
+    </modules>
+  </component>
+</project>

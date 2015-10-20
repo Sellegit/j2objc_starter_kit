@@ -2,7 +2,7 @@
 
 show_help() {
     echo "usage:     create_project domain app_name"
-    echo "example:   create_project io.avantx peach"
+    echo "example:   create_project com.example demo"
 }
 
 if [ -z $1 ]; then
@@ -30,15 +30,16 @@ fi
 
 TEMPLATE_APP_NAME="appname"
 TEMPLATE_DOMAIN="com.domain"
+TEMPLATE_PROJECT_ID="j2objc_project"
 TEMPLATE_PACKAGE_NAME=${TEMPLATE_DOMAIN}.${TEMPLATE_APP_NAME}
 TEMPLATE_PACKAGE_PATH=${TEMPLATE_PACKAGE_NAME//./\/}
 TEMPLATE_DROID=${TEMPLATE_APP_NAME}.droid
 TEMPLATE_IOS=${TEMPLATE_APP_NAME}.ios
-TEMPLATE_SHARED=${TEMPLATE_APP_NAME}.shared
 TEMPLATE_XCODE=${TEMPLATE_APP_NAME}.xcode
 
 PACKAGE_NAME=${DOMAIN}.${APP_NAME}
 PACKAGE_PATH=${PACKAGE_NAME//./\/}
+DROID=${APP_NAME}.droid
 IOS=${APP_NAME}.ios
 # must be same as app_name
 XCODE=${APP_NAME}
@@ -53,6 +54,7 @@ print_env() {
     echo "APP_NAME: "${APP_NAME}
     echo "PACKAGE_NAME: "${PACKAGE_NAME}
     echo "PACKAGE_PATH: "${PACKAGE_PATH}
+    echo "DROID: "${DROID}
     echo "IOS: "${IOS}
     echo "XCODE: "${XCODE}
     echo "---- PRINT ENV ----"
@@ -64,6 +66,8 @@ sed_diamon_app_name() {
     find $1 -name "*.bak.domain" | xargs rm -rf
     grep -rl ${TEMPLATE_APP_NAME} $1 | LANG=C xargs sed -i.bak.appname "s/${TEMPLATE_APP_NAME}/${APP_NAME}/g"
     find $1 -name "*.bak.appname" | xargs rm -rf
+    grep -rl ${TEMPLATE_PROJECT_ID} $1 | LANG=C xargs sed -i.bak.project "s/${TEMPLATE_PROJECT_ID}/${APP_NAME}/g"
+    find $1 -name "*.bak.project" | xargs rm -rf
 }
 
 create_project() {
@@ -71,16 +75,35 @@ create_project() {
     \cp -aR ${TEMPLATE_PATH} ${PROJECT_PATH}
     rm -rf ${PROJECT_PATH}/.git
     sed_diamon_app_name ${PROJECT_PATH}
+    mv ${PROJECT_PATH}/${TEMPLATE_PROJECT_ID}.iml ${PROJECT_PATH}/${APP_NAME}.iml
+}
+
+create_droid() {
+    echo "Creating droid ..."
+    mv ${PROJECT_PATH}/${TEMPLATE_DROID} ${PROJECT_PATH}/${DROID}
+    mv ${PROJECT_PATH}/${DROID}/${TEMPLATE_APP_NAME}.droid.iml ${PROJECT_PATH}/${DROID}/${APP_NAME}.droid.iml
+
+    mkdir -p ${PROJECT_PATH}/${DROID}/src/main/java_temp/${PACKAGE_PATH}/droid
+    mv ${PROJECT_PATH}/${DROID}/src/main/java/${TEMPLATE_PACKAGE_PATH}/droid/* \
+       ${PROJECT_PATH}/${DROID}/src/main/java_temp/${PACKAGE_PATH}/droid
+    rm -rf ${PROJECT_PATH}/${DROID}/src/main/java
+    mv ${PROJECT_PATH}/${DROID}/src/main/java_temp ${PROJECT_PATH}/${DROID}/src/main/java
+
+    mkdir -p ${PROJECT_PATH}/${DROID}/src/androidTest/java_temp/${PACKAGE_PATH}/droid
+    mv ${PROJECT_PATH}/${DROID}/src/androidTest/java/${TEMPLATE_PACKAGE_PATH}/droid/* \
+       ${PROJECT_PATH}/${DROID}/src/androidTest/java_temp/${PACKAGE_PATH}/droid
+    rm -rf ${PROJECT_PATH}/${DROID}/src/androidTest/java
+    mv ${PROJECT_PATH}/${DROID}/src/androidTest/java_temp ${PROJECT_PATH}/${DROID}/src/androidTest/java
 }
 
 create_ios() {
     echo "Creating ios ..."
     mv ${PROJECT_PATH}/${TEMPLATE_IOS} ${PROJECT_PATH}/${IOS}
-    mv ${PROJECT_PATH}/${IOS}/${TEMPLATE_APP_NAME}.ios.iml ${PROJECT_PATH}/${IOS}/${APP_NAME}.iml
+    mv ${PROJECT_PATH}/${IOS}/${TEMPLATE_APP_NAME}.ios.iml ${PROJECT_PATH}/${IOS}/${APP_NAME}.ios.iml
 
     mkdir -p ${PROJECT_PATH}/${IOS}/src/main/java_temp/${PACKAGE_PATH}/ios
-    #mv ${PROJECT_PATH}/${IOS}/src/main/java/${TEMPLATE_PACKAGE_PATH}/ios/* \
-       #${PROJECT_PATH}/${IOS}/src/main/java_temp/${PACKAGE_PATH}/ios
+    mv ${PROJECT_PATH}/${IOS}/src/main/java/${TEMPLATE_PACKAGE_PATH}/ios/* \
+       ${PROJECT_PATH}/${IOS}/src/main/java_temp/${PACKAGE_PATH}/ios
     mv ${PROJECT_PATH}/${IOS}/src/main/java/AppDelegate.java ${PROJECT_PATH}/${IOS}/src/main/java_temp
     rm -rf ${PROJECT_PATH}/${IOS}/src/main/java
     mv ${PROJECT_PATH}/${IOS}/src/main/java_temp ${PROJECT_PATH}/${IOS}/src/main/java
@@ -95,6 +118,7 @@ create_xcode() {
 
 print_env
 create_project
+create_droid
 create_ios
 create_xcode
 

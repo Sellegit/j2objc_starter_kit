@@ -1,0 +1,9 @@
+apply plugin: 'java'
+
+sourceSets {
+    main.java.srcDirs += "../../../j2objc/runtime/src/main/java"
+}
+
+dependencies {
+    compile files('../../../j2objc/dist/lib/j2objc_annotations.jar')
+}

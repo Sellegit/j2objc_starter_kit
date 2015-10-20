@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":appname.ios" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="j2objc_project" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":iosbinding" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="j2objc_project" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
-        <option name="GRADLE_PROJECT_PATH" value=":appname.ios" />
+        <option name="GRADLE_PROJECT_PATH" value=":iosbinding" />
       </configuration>
     </facet>
     <facet type="java-gradle" name="Java-Gradle">
@@ -25,8 +25,11 @@
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../j2objc/runtime/src/main/java">
+      <sourceFolder url="file://$MODULE_DIR$/../../../j2objc/runtime/src/main/java" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="iosbinding" exported="" />
+    <orderEntry type="library" exported="" name="j2objc_annotations" level="project" />
   </component>
 </module>

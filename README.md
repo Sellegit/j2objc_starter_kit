@@ -8,28 +8,44 @@
 
     $./create_project com.example demo
 
-It will generate the `demo` directory in parallel with AvantX project template:
+It will generate the `demo` directory in parallel with J2objc project template:
 
-    your_path
+    path_to 
     ├── j2objc_project_template
     │   ├── ...
     ├── demo
     │   ├── Gemfile
     │   ├── README
-    │   ├── j2objc_project.iml
     │   ├── build.gradle
     │   ├── create_project
     │   ├── demo                        // for xcode
-    │   ├── demo.ios
+    │   ├── demo.ios                    // writting ios app in java
+    │   ├── demo.iml
+    │   ├── demo.droid                  // just an android app
     │   ├── gradle
     │   ├── gradle.properties
     │   ├── gradlew
     │   ├── gradlew.bat
     │   ├── lib
+    │   │   ├── iosbinding              // binding the runtime sources
+    │   │   │   ├── build.gradle
+    │   │   │   └── iosbinding.iml
     │   ├── local.properties
     │   └── settings.gradle
 
 ### IOS
+
+Before writting ios app in Java, you should edit `path_to/demo/lib/iosbinding/build.gradle`:
+
+    apply plugin: 'java'
+
+    sourceSets {
+        main.java.srcDirs += "relative_path_to/j2objc/runtime/src/main/java"
+    }
+
+    dependencies {
+        compile files('relative_path_to/j2objc/dist/lib/j2objc_annotations.jar')
+    }
 
 To build the project, you must have j2objc, a java to objectiveC transpiler. Get it from:
 
@@ -39,8 +55,8 @@ and follow the [instructions on building](https://github.com/google/j2objc/wiki/
 
 Now you should have excutables j2objc and j2objcc under /path/to/j2objc/dist/. Add them to your search path. I personally prefer to use symlink. Assuming on Mac,
 
-    $ln -s /path/to/j2objc/dist/j2objc /usr/bin/j2bjc
-    $ln -s /path/to/j2objc/dist/j2objcc /usr/bin/j2objcc  
+    $ln -s /path_to/j2objc/dist/j2objc /usr/bin/j2bjc
+    $ln -s /path_to/j2objc/dist/j2objcc /usr/bin/j2objcc  
 
 Test you do have those two under the search path by typing
 
@@ -52,7 +68,7 @@ If above went through, type
 
 to install dependencies. Then we can go into the `demo/demo` directory to make the project.
 
-    $cd your_path/demo/demo
+    $cd path_to/demo/demo
     $make
 
 don't worry if you see message from make that complains missing directories the first time you make the project, as they will be created by make later. Also, if the above complains 
@@ -72,12 +88,11 @@ Now you have translated all the java sources into objectiveC sources, it's time 
 Assuming you are under the project directory
 
     #! replace the following to /a/path/to/your/j2objc/dist
-    $echo "J2OBJC_HOME = /path/to/j2objc/dist;" > Env.xcconfig
+    $echo "J2OBJC_HOME = /path_to/j2objc/dist;" > Env.xcconfig
 
     #! skip the next line if you have pod already
-    $sudo gem install cocoapods
-
     $pod install
+
     $open demo.xcworkspace
 
 Now, try build and run the project from Xcode.

@@ -80,14 +80,13 @@ try
 
 If make successes, optionally you can enable incremental build by 
 
-    $gem install rerun
-    $rerun -p "**/*.java" "make incremental -j$N" #!replace $N with the number of processors you want for a concurrent build(e.g. -j8)
-
+    #!replace $N with the number of processors you want for a concurrent build(e.g. -j8)
+    $rerun -d .. -p "**/*.java" "make incremental -j$N" 
 
 Now you have translated all the java sources into objectiveC sources, it's time to compile the project. This project uses Xcode.
 Assuming you are under the project directory
 
-    #! replace the following to /a/path/to/your/j2objc/dist
+    #! replace the following to /path_to/j2objc/dist
     $echo "J2OBJC_HOME = /path_to/j2objc/dist;" > Env.xcconfig
 
     #! skip the next line if you have pod already

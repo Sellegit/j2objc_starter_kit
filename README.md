@@ -35,7 +35,7 @@ It will generate the `demo` directory in parallel with J2objc project template:
 
 ### IOS
 
-Before writting ios app in Java, you should edit `path_to/demo/lib/iosbinding/build.gradle`:
+Before writting ios app in Java, you should replace the following `relative_path_to` in `path_to/demo/lib/iosbinding/build.gradle`:
 
     apply plugin: 'java'
 
@@ -86,7 +86,6 @@ If make successes, optionally you can enable incremental build by
 Now you have translated all the java sources into objectiveC sources, it's time to compile the project. This project uses Xcode.
 Assuming you are under the project directory
 
-    #! replace the following to /path_to/j2objc/dist
     $echo "J2OBJC_HOME = /path_to/j2objc/dist;" > Env.xcconfig
 
     #! skip the next line if you have pod already

@@ -71,20 +71,20 @@ to install dependencies. Then we can go into the `demo/demo` directory to make t
     $cd path_to/demo/demo
     $make
 
-don't worry if you see message from make that complains missing directories the first time you make the project, as they will be created by make later. Also, if the above complains 
+don't worry if you see message from make that complains missing directories the first time you make the project, as they will be created by make later. Also, if the above fails with 
 > /bin/sh: integratej2objc: command not found
 
 try
 
     $bundle exec make
 
-If make successes, optionally you can enable incremental build by 
+If make succeeds, optionally you can enable incremental build by using
 
     #!replace $N with the number of processors you want for a concurrent build(e.g. -j8)
     $rerun -d .. -p "**/*.java" "make incremental -j$N" 
 
-Now you have translated all the java sources into objectiveC sources, it's time to compile the project. This project uses Xcode.
-Assuming you are under the project directory
+Now you have translated all the java sources into objectiveC sources, it's time to compile the Xcode project to get executables.
+Assuming you are under the Xcode project directory
 
     $echo "J2OBJC_HOME = /path_to/j2objc/dist;" > Env.xcconfig
 

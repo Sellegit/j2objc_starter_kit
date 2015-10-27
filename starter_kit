@@ -43,10 +43,10 @@ generate_demo() {
 
 
 case "$1" in
-    ${COMMAND_HELP} )
-        show_help;;
     ${COMMAND_CREATE_PROJECT} )
         create_project $2 $3;;
     ${COMMAND_GENERATE_DEMO} )
         generate_demo;;
+    * )
+        show_help;;
 esac

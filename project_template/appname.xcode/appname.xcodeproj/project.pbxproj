@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		18AB33161BACFE4D00889F86 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AB33151BACFE4D00889F86 /* main.m */; };
 		18AB33211BACFE4D00889F86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18AB33201BACFE4D00889F86 /* Assets.xcassets */; };
-		18AB33391BAD0B4F00889F86 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 18AB33371BAD0B4F00889F86 /* Config.xcconfig */; settings = {ASSET_TAGS = (); }; };
-		18AB333A1BAD0B4F00889F86 /* Env.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 18AB33381BAD0B4F00889F86 /* Env.xcconfig */; settings = {ASSET_TAGS = (); }; };
+		18AB33391BAD0B4F00889F86 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 18AB33371BAD0B4F00889F86 /* Config.xcconfig */; };
+		18AB333A1BAD0B4F00889F86 /* Env.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 18AB33381BAD0B4F00889F86 /* Env.xcconfig */; };
+		1C20E7C41BDF20D00077979D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C20E7C31BDF20D00077979D /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		18AB33251BACFE4D00889F86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18AB33371BAD0B4F00889F86 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Config.xcconfig; path = ../appname/Config.xcconfig; sourceTree = "<group>"; };
 		18AB33381BAD0B4F00889F86 /* Env.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Env.xcconfig; path = ../appname/Env.xcconfig; sourceTree = "<group>"; };
+		1C20E7C31BDF20D00077979D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		18AB33131BACFE4D00889F86 /* appname */ = {
 			isa = PBXGroup;
 			children = (
+				1C20E7C21BDF20D00077979D /* native */,
 				18AB33201BACFE4D00889F86 /* Assets.xcassets */,
 				18AB33251BACFE4D00889F86 /* Info.plist */,
 				18AB33141BACFE4D00889F86 /* Supporting Files */,
@@ -67,6 +70,15 @@
 				18AB33151BACFE4D00889F86 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1C20E7C21BDF20D00077979D /* native */ = {
+			isa = PBXGroup;
+			children = (
+				1C20E7C31BDF20D00077979D /* main.m */,
+			);
+			name = native;
+			path = native;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +151,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C20E7C41BDF20D00077979D /* main.m in Sources */,
 				18AB33161BACFE4D00889F86 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

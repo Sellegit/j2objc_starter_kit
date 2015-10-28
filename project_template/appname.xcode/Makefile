@@ -11,13 +11,11 @@ PROJECTS = APPIOS
 PROJECT_PATH = ..
 APP_NAME = appname
 GENERATED_DEST = $(APP_NAME)/generated
+NATIVE = $(APP_NAME)/native
 MANIFEST_DEST = build_temp
 
 $(MANIFEST_DEST):
 	mkdir $(MANIFEST_DEST)
-
-$(GENERATED_DEST):
-	mkdir $(GENERATED_DEST)
 
 APPIOS = $(PROJECT_PATH)/$(APP_NAME).ios
 
@@ -42,8 +40,10 @@ compile = j2objc -cp $(call getclasspaths,$($(1)_DEPENDSON)) \
 	$(call getsources,$($(1)))
 
 SYNC_MANIFEST = $(call getmanifest,SYNC)
-$(SYNC_MANIFEST): $(shell find $(GENERATED_DEST) -name "*.m") $(shell find $(GENERATED_DEST) -name "*.h")
-	integratej2objc integrate_source -x $(APP_NAME).xcodeproj -s $(APP_NAME)/generated -g "$(APP_NAME)/generated" -t $(APP_NAME) --files=$(APP_NAME)/main.m
+$(SYNC_MANIFEST): $(shell mkdir -p $(GENERATED_DEST)) $(shell find $(GENERATED_DEST) -name "*.m") $(shell find $(GENERATED_DEST) -name "*.h")
+	rm -rf $(GENERATED_DEST)/generated_native
+	cp -a $(APP_NAME)/native $(GENERATED_DEST)/generated_native
+	integratej2objc integrate_source -x $(APP_NAME).xcodeproj -s $(GENERATED_DEST) -g "$(GENERATED_DEST)" -t $(APP_NAME)
 	touch $(SYNC_MANIFEST)
 
 xcode: sync_app
@@ -59,7 +59,6 @@ $(call getmanifest,$(1)): $(call getsources,$($(1))) $(foreach pj,$($(1)_DEPENDS
 	touch $(call getmanifest,$(1))
 
 $(1): $(call getmanifest,$(1))
-
 endef
 
 $(foreach pj,$(PROJECTS),$(eval $(call make_rule,$(pj))))
@@ -68,17 +67,12 @@ all_classpaths := $(call getclasspaths,$(PROJECTS))
 all_dests := $(foreach pj,$(PROJECTS),$(call getdests,$($(pj))))
 
 define make_individual_rule
-list = $(subst $(comma),$(space),$(1))
-dest = $(word 1,$(list))
-source = $(word 2,$(list))
-
-$(dest): $(source)
+$(word 1,$(subst $(comma),$(space),$(1))): $(word 2,$(subst $(comma),$(space),$(1)))
 	j2objc -cp $(all_classpaths) \
         -use-arc \
 	-d $(GENERATED_DEST) \
-	$(source)
+	$(word 2,$(subst $(comma),$(space),$(1)))
 endef
-
 
 $(foreach pj,$(PROJECTS),$(foreach pair,$(call getdestandsourcepairs,$($(pj))),$(eval $(call make_individual_rule,$(pair)))))
 
@@ -89,6 +83,6 @@ incremental: $(all_dests) sync_incremental
 	@echo done
 
 clean:
-	rm -f $(MANIFEST_DEST)/*
-	rm -rf $(GENERATED_DEST)/*
+	rm -rf $(MANIFEST_DEST)
+	rm -rf $(GENERATED_DEST)
 

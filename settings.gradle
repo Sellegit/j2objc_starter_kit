@@ -1,4 +1,0 @@
-include ':appname.ios', ':iosbinding', ':appname.droid'
-
-project(':iosbinding').projectDir = new File('lib//iosbinding')
-

@@ -1,0 +1,52 @@
+#!/bin/bash
+
+STARTER_KIT="starter_kit"
+COMMAND_HELP="help"
+COMMAND_CREATE_PROJECT="create_project"
+COMMAND_GENERATE_DEMO="generate_demo"
+
+show_help() {
+    echo "usage:    ${STARTER_KIT} [command] [options]"
+    echo ""
+    echo "command:"
+    echo "  ${COMMAND_HELP}                show help."
+    echo "  ${COMMAND_CREATE_PROJECT}      create a new project by the project template."
+    echo "  ${COMMAND_GENERATE_DEMO}       generate the demo project."
+    echo ""
+    echo "example:"
+    echo "  ./${STARTER_KIT} ${COMMAND_CREATE_PROJECT} com.domain app_name"
+    echo "  ./${STARTER_KIT} ${COMMAND_GENERATE_DEMO}"
+}
+
+if [ -z $1 ]; then
+    show_help
+    exit 1
+fi
+
+cd $(dirname ${BASH_SOURCE})
+ROOT_PATH=`pwd`
+
+create_project() {
+    if [ -z $1 ] || [ -z $2 ]; then
+        echo "usage:     ./${STARTER_KIT} ${COMMAND_CREATE_PROJECT} com.domain app_name"
+        exit 1
+    fi
+    bash ${ROOT_PATH}/project_template/create_project $1 $2
+}
+
+generate_demo() {
+    bash ${ROOT_PATH}/project_template/create_project com.example j2objc_demo && \
+        rm -rf ${ROOT_PATH}/generated/j2objc_demo/j2objc_demo.ios/src/* && \
+        cp -R ${ROOT_PATH}/demo_src/java_src/* ${ROOT_PATH}/generated/j2objc_demo/j2objc_demo.ios/src/ && \
+        cp -R ${ROOT_PATH}/demo_src/native_src/* ${ROOT_PATH}/generated/j2objc_demo/j2objc_demo/j2objc_demo/native/
+}
+
+
+case "$1" in
+    ${COMMAND_CREATE_PROJECT} )
+        create_project $2 $3;;
+    ${COMMAND_GENERATE_DEMO} )
+        generate_demo;;
+    * )
+        show_help;;
+esac
